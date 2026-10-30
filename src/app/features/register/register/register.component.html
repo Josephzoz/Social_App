@@ -1,0 +1,227 @@
+<p>register works</p>
+
+<div class="mb-6">
+  <h2 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">Create a new account</h2>
+  <p class="text-xs sm:text-sm text-slate-500 mt-1">It is quick and easy.</p>
+</div>
+
+<form [formGroup]="registerForm" class="space-y-4" (ngSubmit)="register()">
+  <div>
+    <div class="relative">
+      <div
+        class="absolute inset-y-0 inset-s-0 flex items-center ps-4 pointer-events-none text-slate-400"
+      >
+        <i class="fa-regular fa-user"></i>
+      </div>
+
+      <input
+        formControlName="name"
+        type="text"
+        id="name"
+        placeholder="Full name"
+        class="w-full bg-[#f8faff] border border-slate-200/90 text-slate-800 text-sm rounded-xl focus:ring-2 focus:ring-blue-600 focus:border-blue-600 ps-11 pe-4 py-3.5 placeholder-slate-400 outline-none transition-all"
+      />
+    </div>
+
+    @if (registerForm.get('name')?.invalid && registerForm.get('name')?.touched || isSubmitted) {
+      <div class="pt-1">
+        @if (registerForm.get('name')?.hasError('required')) {
+          <p class="text-red-500 text-xs font-semibold">Full name is required.</p>
+        } @else if (registerForm.get('name')?.hasError('minlength')) {
+          <p class="text-red-500 text-xs font-semibold">Name must be at least 3 characters.</p>
+        } @else if (registerForm.get('name')?.hasError('maxlength')) {
+          <p class="text-red-500 text-xs font-semibold">Name must not exceed 20 characters.</p>
+        } @else if (registerForm.get('name')?.hasError('pattern')) {
+          <p class="text-red-500 text-xs font-semibold">
+            Enter a valid name (e.g., Joseph Ashraf).
+          </p>
+        }
+      </div>
+    }
+  </div>
+
+  <div>
+    <div class="relative">
+      <div
+        class="absolute inset-y-0 inset-s-0 flex items-center ps-4 pointer-events-none text-slate-400"
+      >
+        <i class="fa-solid fa-at"></i>
+      </div>
+      <input
+        formControlName="username"
+        type="text"
+        id="password"
+        placeholder="Username (optional)"
+        class="w-full bg-[#f8faff] border border-slate-200/90 text-slate-800 text-sm rounded-xl focus:ring-2 focus:ring-blue-600 focus:border-blue-600 ps-11 pe-4 py-3.5 placeholder-slate-400 outline-none transition-all"
+      />
+    </div>
+    @if (registerForm.get('username')?.invalid && registerForm.get('username')?.touched || isSubmitted) {
+      <div class="pt-1">
+        @if (registerForm.get('username')?.hasError('minlength')) {
+          <p class="text-red-500 text-xs font-semibold">Username must be at least 3 characters.</p>
+        } @else if (registerForm.get('username')?.hasError('maxlength')) {
+          <p class="text-red-500 text-xs font-semibold">Username must not exceed 20 characters.</p>
+        } @else if (registerForm.get('username')?.hasError('pattern')) {
+          <p class="text-red-500 text-xs font-semibold">
+            Enter a valid Username (e.g., zoz@1004).
+          </p>
+        }
+      </div>
+    }
+  </div>
+
+  <div>
+    <div class="relative">
+      <div
+        class="absolute inset-y-0 inset-s-0 flex items-center ps-4 pointer-events-none text-slate-400"
+      >
+        <i class="fa-solid fa-at"></i>
+      </div>
+      <input
+        formControlName="email"
+        type="email"
+        id="password"
+        placeholder="Email address"
+        class="w-full bg-[#f8faff] border border-slate-200/90 text-slate-800 text-sm rounded-xl focus:ring-2 focus:ring-blue-600 focus:border-blue-600 ps-11 pe-4 py-3.5 placeholder-slate-400 outline-none transition-all"
+      />
+    </div>
+    @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched || isSubmitted) {
+      <div class="pt-1">
+        @if (registerForm.get('email')?.hasError('required')) {
+          <p class="text-red-500 text-xs font-semibold">Email is required.</p>
+        } @else if (registerForm.get('email')?.hasError('email')) {
+          <p class="text-red-500 text-xs font-semibold">
+            Please enter a valid email address.
+          </p>
+        }
+      </div>
+    }
+  </div>
+
+  <div>
+    <div class="relative">
+      <div
+        class="absolute inset-y-0 inset-s-0 flex items-center ps-4 pointer-events-none text-slate-400"
+      >
+        <i class="fa-solid fa-user-group"></i>
+      </div>
+
+      <select
+        formControlName="gender"
+        name=""
+        id=""
+        class="w-full bg-[#f8faff] border border-slate-200/90 text-slate-800 text-sm rounded-xl focus:ring-2 focus:ring-blue-600 focus:border-blue-600 ps-11 pe-4 py-3.5 placeholder-slate-400 outline-none transition-all"
+      >
+        <option value="" selected disabled>Select gender</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+      </select>
+    </div>
+    @if (registerForm.get('gender')?.invalid && registerForm.get('gender')?.touched || isSubmitted) {
+      <div class="pt-1">
+        @if (registerForm.get('gender')?.hasError('required')) {
+          <p class="text-red-500 text-xs font-semibold">Gender is required.</p>
+        }
+      </div>
+    }
+  </div>
+
+  <div>
+    <div class="relative">
+      <div
+        class="absolute inset-y-0 inset-s-0 flex items-center ps-4 pointer-events-none text-slate-400"
+      >
+        <i class="fa-regular fa-calendar"></i>
+      </div>
+      <input
+        formControlName="dateOfBirth"
+        type="date"
+        id="password"
+        class="w-full bg-[#f8faff] border border-slate-200/90 text-slate-800 text-sm rounded-xl focus:ring-2 focus:ring-blue-600 focus:border-blue-600 ps-11 pe-4 py-3.5 placeholder-slate-400 outline-none transition-all"
+      />
+    </div>
+    @if (registerForm.get('dateOfBirth')?.invalid && registerForm.get('dateOfBirth')?.touched || isSubmitted) {
+      <div class="pt-1">
+        @if (registerForm.get('dateOfBirth')?.hasError('required')) {
+          <p class="text-red-500 text-xs font-semibold">Date of birth is required.</p>
+        }
+      </div>
+    }
+  </div>
+
+  <div>
+    <div class="relative">
+      <div
+        class="absolute inset-y-0 inset-s-0 flex items-center ps-4 pointer-events-none text-slate-400"
+      >
+        <i class="fa-solid fa-key"></i>
+      </div>
+      <input
+        formControlName="password"
+        type="password"
+        id="password"
+        placeholder="Password"
+        class="w-full bg-[#f8faff] border border-slate-200/90 text-slate-800 text-sm rounded-xl focus:ring-2 focus:ring-blue-600 focus:border-blue-600 ps-11 pe-4 py-3.5 placeholder-slate-400 outline-none transition-all"
+      />
+    </div>
+
+    @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched || isSubmitted) {
+      <div class="pt-1">
+        @if (registerForm.get('password')?.hasError('required')) {
+          <p class="text-red-500 text-xs font-semibold">Password is required.</p>
+        } @else if (registerForm.get('password')?.hasError('pattern')) {
+          <p class="text-red-500 text-xs font-semibold">
+            Password must include uppercase, lowercase, number, and special character.
+          </p>
+        }
+      </div>
+    }
+
+  </div>
+
+  <div>
+    <div class="relative">
+      <div
+        class="absolute inset-y-0 inset-s-0 flex items-center ps-4 pointer-events-none text-slate-400"
+      >
+        <i class="fa-solid fa-key"></i>
+      </div>
+      <input
+        formControlName="rePassword"
+        type="password"
+        id="password"
+        placeholder="Confirm password"
+        class="w-full bg-[#f8faff] border border-slate-200/90 text-slate-800 text-sm rounded-xl focus:ring-2 focus:ring-blue-600 focus:border-blue-600 ps-11 pe-4 py-3.5 placeholder-slate-400 outline-none transition-all"
+      />
+    </div>
+    @if (registerForm.get('rePassword')?.invalid && registerForm.get('rePassword')?.touched || isSubmitted) {
+      <div class="pt-1">
+        @if (registerForm.get('rePassword')?.hasError('required')) {
+          <p class="text-red-500 text-xs font-semibold">Please confirm your password.</p>
+        } @else if (registerForm.get('rePassword')?.hasError('missmatch')) {
+          <p class="text-red-500 text-xs font-semibold">
+            Passwords do not match.
+          </p>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="pt-2">
+    <button
+      type="submit"
+      class="w-full bg-[#002f87] hover:bg-[#00246a] active:scale-[0.99] text-white font-bold rounded-xl py-3.5 text-center text-sm transition-all shadow-md hover:shadow-lg cursor-pointer"
+    >
+      Create New Account
+    </button>
+  </div>
+
+  @if (resMessage) {
+    <div
+      class="w-full bg-danger-medium border border-danger text-danger text-sm rounded-xl ps-5 pe-4 py-3.5"
+    >
+      <p>{{ resMessage }}</p>
+    </div>
+  }
+</form>
+ 

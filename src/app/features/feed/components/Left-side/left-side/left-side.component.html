@@ -1,0 +1,49 @@
+<div class="bg-white rounded-2xl border border-slate-200/80 p-2 sm:p-2.5 lg:p-3 shadow-xs">
+  <nav class="grid grid-cols-2 gap-2 lg:flex lg:flex-col lg:gap-1.5" aria-label="Sidebar Navigation">
+    
+    <a
+      routerLink="/feed"
+      [routerLinkActiveOptions]="{ exact: true }"
+      routerLinkActive="bg-blue-50 !text-blue-600 font-bold shadow-xs"
+      class="flex items-center justify-center lg:justify-start gap-2 lg:gap-3.5 px-3 lg:px-4 py-2.5 lg:py-3 rounded-xl lg:rounded-2xl text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-all duration-150 cursor-pointer select-none"
+    >
+      <i class="fa-regular fa-newspaper text-base w-5 text-center shrink-0"></i>
+      <span>Feed</span>
+    </a>
+
+    <a
+      routerLink="/feed/myposts"
+      routerLinkActive="bg-blue-50 !text-blue-600 font-bold shadow-xs"
+      class="flex items-center justify-center lg:justify-start gap-2 lg:gap-3.5 px-3 lg:px-4 py-2.5 lg:py-3 rounded-xl lg:rounded-2xl text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-all duration-150 cursor-pointer select-none"
+    >
+      <span class="w-5 flex items-center justify-center shrink-0">
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/>
+          <path d="M20 3v4"/>
+          <path d="M22 5h-4"/>
+          <path d="M4 17v2"/>
+          <path d="M5 18H3"/>
+        </svg>
+      </span>
+      <span>My Posts</span>
+    </a>
+
+    <a
+      routerLink="/feed/community"
+      routerLinkActive="bg-blue-50 !text-blue-600 font-bold shadow-xs"
+      class="flex items-center justify-center lg:justify-start gap-2 lg:gap-3.5 px-3 lg:px-4 py-2.5 lg:py-3 rounded-xl lg:rounded-2xl text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-all duration-150 cursor-pointer select-none"
+    >
+      <i class="fa-solid fa-globe text-base w-5 text-center shrink-0"></i>
+      <span>Community</span>
+    </a>
+
+    <a
+      routerLink="/feed/saved"
+      routerLinkActive="bg-blue-50 !text-blue-600 font-bold shadow-xs"
+      class="flex items-center justify-center lg:justify-start gap-2 lg:gap-3.5 px-3 lg:px-4 py-2.5 lg:py-3 rounded-xl lg:rounded-2xl text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-all duration-150 cursor-pointer select-none"
+    >
+      <i class="fa-regular fa-bookmark text-base w-5 text-center shrink-0"></i>
+      <span>Saved</span>
+    </a>
+  </nav>
+</div>

@@ -1,0 +1,121 @@
+<div class="min-h-[calc(100vh-80px)] py-8 sm:py-12 px-4 flex justify-center items-start">
+  <div
+    class="w-full max-w-[500px] bg-white rounded-2xl sm:rounded-3xl border border-slate-100 shadow-sm p-6 sm:p-8"
+  >
+    <div class="flex items-center gap-3.5 mb-6">
+      <div class="w-10 h-10 rounded-full bg-[#dcecfe] flex items-center justify-center shrink-0">
+        <i class="fa-solid fa-key text-lg text-[#1978f2]"></i>
+      </div>
+      <div>
+        <h1 class="text-xl font-bold text-slate-900 leading-tight">Change Password</h1>
+        <p class="text-xs sm:text-sm text-slate-500 mt-0.5">
+          Keep your account secure by using a strong password.
+        </p>
+      </div>
+    </div>
+
+    <form [formGroup]="changePasswordForm" class="space-y-4" (ngSubmit)="changePassword()">
+      <div class="space-y-1.5">
+        <label for="password" class="block text-sm font-semibold text-slate-800">
+          Current password
+        </label>
+        <input
+          formControlName="password"
+          type="password"
+          id="password"
+          placeholder="Enter current password"
+          class="w-full bg-[#f8fafc] border border-slate-200/90 text-slate-800 text-sm rounded-xl px-4 py-2.5 placeholder:text-slate-400 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 focus:outline-none transition-all"
+        />
+        @if (
+          (changePasswordForm.get('password')?.invalid &&
+            changePasswordForm.get('password')?.touched) ||
+          isSubmitted
+        ) {
+          <div class="pt-0.5">
+            @if (changePasswordForm.get('password')?.hasError('required')) {
+              <p class="text-red-500 text-xs font-semibold">Password is required.</p>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="space-y-1.5">
+        <label for="newPassword" class="block text-sm font-semibold text-slate-800">
+          New password
+        </label>
+        <input
+          formControlName="newPassword"
+          type="password"
+          id="newPassword"
+          placeholder="Enter new password"
+          class="w-full bg-[#f8fafc] border border-slate-200/90 text-slate-800 text-sm rounded-xl px-4 py-2.5 placeholder:text-slate-400 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 focus:outline-none transition-all"
+        />
+        <p class="text-xs text-slate-500">
+          At least 8 characters with uppercase, lowercase, number, and special character.
+        </p>
+        @if (
+          (changePasswordForm.get('newPassword')?.invalid &&
+            changePasswordForm.get('newPassword')?.touched) ||
+          isSubmitted
+        ) {
+          <div class="pt-0.5">
+            @if (changePasswordForm.get('newPassword')?.hasError('required')) {
+              <p class="text-red-500 text-xs font-semibold">Password is required.</p>
+            } @else if (changePasswordForm.get('newPassword')?.hasError('pattern')) {
+              <p class="text-red-500 text-xs font-semibold">
+                Password must include uppercase, lowercase, number, and special character.
+              </p>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="space-y-1.5">
+        <label for="rePassword" class="block text-sm font-semibold text-slate-800">
+          Confirm new password
+        </label>
+        <input
+          formControlName="rePassword"
+          type="password"
+          id="rePassword"
+          placeholder="Re-enter new password"
+          class="w-full bg-[#f8fafc] border border-slate-200/90 text-slate-800 text-sm rounded-xl px-4 py-2.5 placeholder:text-slate-400 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 focus:outline-none transition-all"
+        />
+        @if (
+          ((changePasswordForm.get('rePassword')?.invalid ||
+            changePasswordForm.hasError('missmatch')) &&
+            changePasswordForm.get('rePassword')?.touched) ||
+          isSubmitted
+        ) {
+          <div class="pt-0.5">
+            @if (changePasswordForm.get('rePassword')?.hasError('required')) {
+              <p class="text-red-500 text-xs font-semibold">Please confirm your password.</p>
+            } @else if (
+              changePasswordForm.hasError('missmatch') ||
+              changePasswordForm.get('rePassword')?.hasError('missmatch')
+            ) {
+              <p class="text-red-500 text-xs font-semibold">Passwords do not match.</p>
+            }
+          </div>
+        }
+      </div>
+
+      @if (resMessage) {
+        <div
+          class="w-full bg-red-50 border border-red-200 text-red-600 text-xs font-medium rounded-xl p-3"
+        >
+          <p>{{ resMessage }}</p>
+        </div>
+      }
+
+      <div class="pt-2">
+        <button
+          type="submit"
+          class="w-full bg-[#74adf7] hover:bg-[#5da0f5] active:scale-[0.99] text-white font-medium rounded-xl py-3 text-center text-sm transition-all shadow-xs cursor-pointer"
+        >
+          Update password
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

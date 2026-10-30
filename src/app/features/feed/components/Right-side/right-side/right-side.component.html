@@ -1,0 +1,72 @@
+<div class="bg-white rounded-2xl border border-slate-200/80 p-4 shadow-xs">
+
+  <div class="flex items-center justify-between mb-4">
+    <div class="flex items-center gap-2.5">
+      <div class="w-8 h-8 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600">
+        <i class="fa-solid fa-user-group text-sm"></i>
+      </div>
+      <h2 class="text-base font-bold text-slate-800 tracking-tight">Suggested Friends</h2>
+    </div>
+    <span class="w-6 h-6 rounded-full bg-slate-100 text-xs font-semibold text-slate-500 flex items-center justify-center">
+      {{ followers().length }}
+    </span>
+  </div>
+
+  
+  <div class="relative mb-3.5">
+    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs pointer-events-none"></i>
+    <input
+      type="text"
+      placeholder="Search friends..."
+      class="w-full pl-9 pr-3.5 py-2 bg-slate-50/80 hover:bg-slate-100/70 focus:bg-white border border-slate-200/80 rounded-xl text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
+    />
+  </div>
+
+  
+  <div class="space-y-2.5 max-h-[calc(100vh-230px)] overflow-y-auto pr-0.5 custom-scrollbar">
+    @if(followers().length > 0) {
+      @for(user of followers(); track user._id) {
+        <div class="p-3 rounded-2xl border border-slate-100/90 hover:border-slate-200 hover:shadow-xs transition-all bg-white group">
+          
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2.5 min-w-0 flex-1">
+              <img
+                [src]="user.photo || './Images/default-profile.png'"
+                [alt]="user.name"
+                class="w-10 h-10 rounded-full object-cover shrink-0 border border-slate-100"
+              />
+              <div class="min-w-0 flex-1">
+                <h3 class="text-sm font-semibold text-slate-900 truncate leading-snug group-hover:text-blue-600 transition-colors">
+                  {{ user.name }}
+                </h3>
+                <p class="text-xs text-slate-500 truncate">
+                  @{{ user.username }}
+                </p>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              class="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-600 hover:bg-blue-100 transition-all cursor-pointer select-none"
+            >
+              <i class="fa-solid fa-plus text-[10px]"></i>
+              <span>Follow</span>
+            </button>
+          </div>
+
+          
+          <div class="mt-2 text-xs text-slate-400 font-medium">
+            {{ user.followersCount }} followers
+          </div>
+        </div>
+      }
+    } @else {
+      <div class="py-8 text-center">
+        <div class="w-12 h-12 rounded-full bg-slate-50 text-slate-300 flex items-center justify-center mx-auto mb-2">
+          <i class="fa-regular fa-user text-xl"></i>
+        </div>
+        <p class="text-xs font-medium text-slate-500">No suggested friends found</p>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,208 @@
+<div class="py-6 px-4">
+  <div class="max-w-2xl mx-auto space-y-4">
+    <div class="flex items-center">
+      <button
+        type="button"
+        (click)="goBack()"
+        class="inline-flex items-center gap-2 px-3.5 py-1.5 bg-white rounded-xl border border-slate-200/80 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 shadow-xs transition-colors cursor-pointer"
+        aria-label="Go back"
+      >
+        <i class="fa-solid fa-arrow-left text-xs"></i>
+        <span>Back</span>
+      </button>
+    </div>
+
+    @if (postDetail(); as post) {
+      <article
+        class="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden transition-shadow hover:shadow-sm"
+      >
+        <div class="p-4 sm:p-5 pb-3">
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex items-center gap-3 min-w-0">
+              <img
+                [src]="post.user.photo"
+                [alt]="post.user.name"
+                class="w-10 h-10 rounded-full object-cover shrink-0 border border-slate-100"
+              />
+
+              <div class="min-w-0">
+                <div class="flex items-baseline gap-1.5 flex-wrap">
+                  <h2 class="text-sm font-bold text-slate-900 leading-snug">
+                    {{ post.user.name }}
+                  </h2>
+                  
+                </div>
+
+                <div class="flex items-center gap-1.5 text-xs text-slate-500 mt-0.5">
+                  <span>{{ post.createdAt | date:'shortTime'}}</span>
+                  <span>·</span>
+                  <span class="inline-flex items-center gap-1">
+                    <i class="fa-solid fa-earth-americas text-[10px] text-slate-400"></i>
+                    <span>{{ post.privacy }}</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="relative inline-block text-left">
+      <details #menu (keydown.escape)="menu.open = false" class="group">
+      
+        <summary
+          class="list-none flex items-center justify-center w-8 h-8 rounded-full text-slate-500 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer shrink-0 focus:outline-none select-none relative z-50 [&::-webkit-details-marker]:hidden [&::marker]:hidden"
+          aria-label="Post menu"
+        >
+          <i class="fa-solid fa-ellipsis text-base"></i>
+        </summary>
+
+        
+        <div class="fixed inset-0 z-40 bg-transparent" (click)="menu.open = false"></div>
+
+        
+        @if (userId() === post.user._id) {
+          <div
+            class="absolute right-0 top-full mt-1.5 z-50 w-48 bg-white rounded-2xl shadow-xl border border-slate-100 p-2 focus:outline-none select-none"
+          >
+            <ul class="space-y-1 text-sm">
+              <li>
+                <button
+                  (click)="bookmarkPost(post._id)"
+                  type="button"
+                  class="w-full flex items-center gap-3.5 px-3.5 py-2.5 text-sm font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-50 rounded-xl transition-colors cursor-pointer text-left"
+                >
+                  
+                  <i class="fa-regular fa-bookmark text-base text-slate-700 w-5 text-center shrink-0"></i>
+                  @if (!post.bookmarked) {
+                    <span>Save post</span>
+                  } @else if (post.bookmarked) {
+                    <span>Unsave post</span>
+                  }
+                </button>
+              </li>
+              <li>
+                <button
+                  (click)="startUpdating()"
+                  type="button"
+                  (click)="menu.open = false"
+                  class="w-full flex items-center gap-3.5 px-3.5 py-2.5 text-sm font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-50 rounded-xl transition-colors cursor-pointer text-left"
+                >
+                  
+                  <i class="fa-solid fa-pencil text-base text-slate-700 w-5 text-center shrink-0"></i>
+                  <span>Edit post</span>
+                </button>
+              </li>
+              <li>
+                <button
+                  (click)="deletePost(post.id)"
+                  type="button"
+                  (click)="menu.open = false"
+                  class="w-full flex items-center gap-3.5 px-3.5 py-2.5 text-sm font-medium text-rose-500 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors cursor-pointer text-left"
+                >
+                  
+                  <i class="fa-solid fa-trash-can text-base text-rose-500 w-5 text-center shrink-0"></i>
+                  <span>Delete post</span>
+                </button>
+              </li>
+            </ul>
+          </div>
+        } @else if (userId() !== post.user._id) {
+          <div
+            class="absolute right-0 top-full mt-1.5 z-50 w-48 bg-white rounded-2xl shadow-xl border border-slate-100 p-2 focus:outline-none select-none"
+          >
+            <button
+              (click)="bookmarkPost(post._id)"
+              type="button"
+              (click)="menu.open = false"
+              class="w-full flex items-center gap-3.5 px-3.5 py-2.5 text-sm font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-50 rounded-xl transition-colors cursor-pointer text-left"
+            >
+              
+              <i class="fa-regular fa-bookmark text-base text-slate-700 w-5 text-center shrink-0"></i>
+              @if (!post.bookmarked) {
+                <span>Save post</span>
+              } @else if (post.bookmarked) {
+                <span>Unsave post</span>
+              }
+            </button>
+          </div>
+        }
+      </details>
+    </div>
+          </div>
+        </div>
+        @if (post.body) {
+          <p class="text-slate-800 text-sm md:text-base leading-relaxed mb-3 whitespace-pre-line px-5">
+            {{ post.body }}
+          </p>
+        }
+
+        @if (post.image) {
+          <div class="w-full bg-slate-950 flex items-center justify-center overflow-hidden">
+            <img
+              [src]="post.image"
+              alt="Post attachment"
+              class="w-full max-h-150 object-cover"
+              loading="lazy"
+            />
+            
+          </div>
+        }
+       
+
+        <div class="px-4 sm:px-5 py-2.5 flex items-center justify-between text-xs text-slate-500">
+          <div class="flex items-center gap-1.5">
+            <span
+              class="w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px] shadow-xs"
+            >
+              <i class="fa-solid fa-thumbs-up"></i>
+            </span>
+            <span class="font-medium text-slate-600"> {{ post.likesCount }} likes </span>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <span class="inline-flex items-center gap-1.5">
+              <i class="fa-solid fa-repeat text-xs text-slate-400"></i>
+              <span>{{ post.sharesCount }} shares</span>
+            </span>
+            <span>{{ post.commentsCount }} comments</span>
+            <span class="text-blue-600 font-semibold hover:underline cursor-pointer">
+              View details
+            </span>
+          </div>
+        </div>
+
+        <div class="border-t border-slate-100 mx-4 sm:mx-5"></div>
+
+        <div class="px-3 sm:px-4 py-1.5 flex items-center justify-between">
+          <button
+            type="button"
+            class="flex-1 py-2 rounded-xl flex items-center justify-center gap-2 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors cursor-pointer select-none"
+          >
+            <i class="fa-regular fa-thumbs-up text-base"></i>
+            <span>Like</span>
+          </button>
+
+          <button
+            type="button"
+            #comment
+            class="flex-1 py-2 rounded-xl flex items-center justify-center gap-2 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors cursor-pointer select-none"
+          >
+            <i class="fa-regular fa-comment text-base"></i>
+            <span>Comment</span>
+          </button>
+
+          <button
+            type="button"
+            class="flex-1 py-2 rounded-xl flex items-center justify-center gap-2 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors cursor-pointer select-none"
+          >
+            <i class="fa-solid fa-share-nodes text-base"></i>
+            <span>Share</span>
+          </button>
+        </div>
+        @defer (on interaction(comment)) {
+    <div>
+      <app-post-comments [postId]="post._id"></app-post-comments>
+    </div>
+  }
+      </article>
+    }
+  </div>
+</div>

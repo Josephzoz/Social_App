@@ -1,0 +1,358 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-4 sm:space-y-5">
+  <section class="bg-white rounded-3xl border border-slate-200/80 shadow-xs overflow-hidden">
+    <div
+      class="relative group/cover h-52 sm:h-60 lg:h-64 bg-gradient-to-r from-[#1c2438] via-[#203a5e] to-[#5b85ab] w-full"
+    >
+      <label
+        class="absolute top-4 right-4 sm:top-5 sm:right-6 z-10 inline-flex items-center gap-2 px-3 py-1.5 sm:px-3.5 sm:py-2 rounded-xl bg-slate-900/60 hover:bg-slate-900/80 backdrop-blur-sm border border-white/10 text-white text-xs sm:text-sm font-medium opacity-0 group-hover/cover:opacity-100 transition-all duration-200 cursor-pointer shadow-md select-none"
+        title="Add cover photo"
+      >
+        <input type="file" class="hidden" accept="image/*" />
+        <i class="fa-solid fa-camera text-xs sm:text-sm"></i>
+        <span>Add cover</span>
+      </label>
+    </div>
+
+    @if (profileInfo(); as info) {
+      <div class="px-4 sm:px-6 lg:px-8 pb-7">
+        <div
+          class="relative z-10 -mt-10 sm:-mt-12 bg-white rounded-2xl p-6 sm:p-8 border border-slate-100 shadow-xs"
+        >
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <div class="flex items-center gap-4 sm:gap-5">
+              <div class="relative group/avatar shrink-0">
+                <img
+                  [src]="info.photo"
+                  [alt]="info.name"
+                  class="w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover ring-4 ring-white shadow-xs bg-white"
+                />
+
+                <button
+                  type="button"
+                  data-modal-target="avatarModal"
+                  data-modal-toggle="avatarModal"
+                  class="absolute -bottom-1 -left-1 sm:-bottom-1.5 sm:-left-1.5 z-20 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white border border-slate-200/90 shadow-md flex items-center justify-center text-blue-600 hover:bg-blue-50 hover:text-blue-700 opacity-0 group-hover/avatar:opacity-100 transition-all duration-200 cursor-pointer select-none"
+                  title="Enlarge profile picture"
+                  aria-label="Enlarge profile picture"
+                >
+                  <i class="fa-solid fa-expand text-[11px] sm:text-xs"></i>
+                </button>
+
+                <label
+                  class="absolute -bottom-1 -right-1 sm:-bottom-1.5 sm:-right-1.5 z-20 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-blue-600 hover:bg-blue-700 shadow-md flex items-center justify-center text-white opacity-0 group-hover/avatar:opacity-100 transition-all duration-200 cursor-pointer select-none"
+                  title="Change profile picture"
+                  aria-label="Change profile picture"
+                >
+                  <input type="file" class="hidden" accept="image/*" />
+                  <i class="fa-solid fa-camera text-[11px] sm:text-xs"></i>
+                </label>
+              </div>
+
+              <div>
+                <h1
+                  class="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight leading-snug"
+                >
+                  {{ info.name }}
+                </h1>
+                <p class="text-sm sm:text-base text-slate-500 mt-0.5 font-normal">
+                  {{ info.username }}
+                </p>
+                <div class="mt-2.5">
+                  <span
+                    class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-xs font-semibold"
+                  >
+                    <i class="fa-solid fa-user-group text-[11px]"></i>
+                    <span>Route Posts member</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-3 sm:gap-4 w-full lg:w-auto">
+              <div
+                class="bg-white border border-slate-200/80 rounded-2xl px-5 sm:px-7 py-3.5 text-center min-w-[100px] sm:min-w-[120px] shadow-2xs"
+              >
+                <span class="block text-[11px] font-bold text-slate-400 tracking-wider uppercase"
+                  >FOLLOWERS</span
+                >
+                <span class="block text-2xl font-bold text-slate-800 mt-0.5">{{
+                  info.followersCount
+                }}</span>
+              </div>
+
+              <div
+                class="bg-white border border-slate-200/80 rounded-2xl px-5 sm:px-7 py-3.5 text-center min-w-[100px] sm:min-w-[120px] shadow-2xs"
+              >
+                <span class="block text-[11px] font-bold text-slate-400 tracking-wider uppercase"
+                  >FOLLOWING</span
+                >
+                <span class="block text-2xl font-bold text-slate-800 mt-0.5">{{
+                  info.followingCount
+                }}</span>
+              </div>
+
+              <div
+                class="bg-white border border-slate-200/80 rounded-2xl px-5 sm:px-7 py-3.5 text-center min-w-[100px] sm:min-w-[120px] shadow-2xs"
+              >
+                <span class="block text-[11px] font-bold text-slate-400 tracking-wider uppercase"
+                  >BOOKMARKS</span
+                >
+                <span class="block text-2xl font-bold text-slate-800 mt-0.5">{{
+                  info.bookmarksCount
+                }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5 mt-6">
+            <div
+              class="lg:col-span-2 bg-[#f8fafc] border border-slate-200/80 rounded-2xl p-5 sm:p-6 flex flex-col justify-center"
+            >
+              <h2 class="text-sm font-bold text-slate-900 mb-3.5">About</h2>
+              <div class="space-y-3 text-sm text-slate-600">
+                <div class="flex items-center gap-2.5">
+                  <i class="fa-regular fa-envelope text-slate-400 text-sm w-4"></i>
+                  <span class="font-normal">{{ info.email }}</span>
+                </div>
+                <div class="flex items-center gap-2.5">
+                  <i class="fa-solid fa-user-group text-slate-400 text-xs w-4"></i>
+                  <span class="font-normal">Active on Route Posts</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex flex-col gap-4">
+              <div
+                class="bg-[#f8fafc] border border-slate-200/80 rounded-2xl p-4 sm:p-5 flex-1 flex flex-col justify-center"
+              >
+                <span class="block text-[11px] font-bold text-slate-500 tracking-wider uppercase"
+                  >MY POSTS</span
+                >
+
+                @if (myposts()) {
+                  <span class="block text-2xl font-bold text-slate-900 mt-1">{{
+                    myposts().length
+                  }}</span>
+                }
+              </div>
+
+              <div
+                class="bg-[#f8fafc] border border-slate-200/80 rounded-2xl p-4 sm:p-5 flex-1 flex flex-col justify-center"
+              >
+                <span class="block text-[11px] font-bold text-slate-500 tracking-wider uppercase"
+                  >SAVED POSTS</span
+                >
+
+                @if (myBookmarks()) {
+                  <span class="block text-2xl font-bold text-slate-900 mt-1">{{
+                    myBookmarks().length
+                  }}</span>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </section>
+
+  <div
+    class="bg-white rounded-2xl border border-slate-200/80 p-2.5 sm:p-3 shadow-xs flex items-center justify-between"
+  >
+    <div class="flex items-center gap-2">
+      <button
+        type="button"
+        (click)="activeTab.set('posts')"
+        class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm cursor-pointer select-none transition-all"
+        [class]="
+          activeTab() === 'posts'
+            ? 'bg-white border border-slate-200/80 text-blue-600 font-semibold shadow-xs'
+            : 'text-slate-600 hover:text-slate-900 font-medium hover:bg-slate-50'
+        "
+      >
+        <i class="fa-regular fa-file-lines text-sm"></i>
+        <span>My Posts</span>
+      </button>
+
+      <button
+        type="button"
+        (click)="activeTab.set('saved')"
+        class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm cursor-pointer select-none transition-all"
+        [class]="
+          activeTab() === 'saved'
+            ? 'bg-white border border-slate-200/80 text-blue-600 font-semibold shadow-xs'
+            : 'text-slate-600 hover:text-slate-900 font-medium hover:bg-slate-50'
+        "
+      >
+        <i class="fa-regular fa-bookmark text-sm"></i>
+        <span>Saved</span>
+      </button>
+    </div>
+
+    <span
+      class="w-6 h-6 rounded-full bg-blue-50 text-blue-600 text-xs font-semibold flex items-center justify-center border border-blue-100"
+    >
+      {{ activeTab() === 'posts' ? myposts().length : myBookmarks().length }}
+    </span>
+  </div>
+
+  @if (activeTab() === 'posts') {
+    <div class="space-y-4">
+      @for (post of myposts(); track post._id) {
+        <article
+          class="bg-white rounded-2xl border border-slate-200/80 p-5 sm:p-6 shadow-xs transition-shadow hover:shadow-sm"
+        >
+          <div class="flex items-center justify-between gap-3 mb-3">
+            <div class="flex items-center gap-3 min-w-0">
+              <img
+                [src]="post.user.photo"
+                [alt]="post.user.name"
+                class="w-10 h-10 rounded-full object-cover shrink-0"
+              />
+              <div class="min-w-0">
+                <h3 class="text-sm font-bold text-slate-900 leading-snug truncate">
+                  {{ post.user.name }}
+                </h3>
+                <p class="text-xs text-slate-500 leading-snug truncate">
+                  @{{ post.user.username }}
+                </p>
+              </div>
+            </div>
+            <a
+              [routerLink]="['/postdetails', post._id]"
+              class="text-xs sm:text-sm font-semibold text-blue-600 hover:underline shrink-0"
+            >
+              View details
+            </a>
+          </div>
+
+          @if (post.body) {
+            <p class="text-sm text-slate-800 leading-relaxed my-3">
+              {{ post.body }}
+            </p>
+          }
+
+          @if (post.image) {
+            <div
+              class="relative rounded-2xl overflow-hidden mb-3 border border-slate-100 bg-slate-900/5 group"
+            >
+              <img
+                [src]="post.image"
+                alt="Post attachment"
+                class="w-full max-h-[500px] object-cover rounded-2xl"
+                loading="lazy"
+              />
+            </div>
+          }
+
+          <div class="flex items-center justify-between text-xs text-slate-500 pt-2">
+            <div class="flex items-center gap-4 sm:gap-6">
+              <span
+                class="inline-flex items-center gap-1.5 cursor-pointer hover:text-slate-700 select-none"
+              >
+                <i class="fa-regular fa-thumbs-up"></i>
+                <span>{{ post.likesCount }} likes</span>
+              </span>
+              <span
+                class="inline-flex items-center gap-1.5 cursor-pointer hover:text-slate-700 select-none"
+              >
+                <i class="fa-solid fa-repeat"></i>
+                <span>{{ post.sharesCount }} shares</span>
+              </span>
+              <span
+                class="inline-flex items-center gap-1.5 cursor-pointer hover:text-slate-700 select-none"
+              >
+                <i class="fa-regular fa-comment"></i>
+                <span>{{ post.commentsCount }} comments</span>
+              </span>
+            </div>
+
+            <div class="inline-flex items-center gap-1.5 text-slate-500">
+              <i class="fa-regular fa-clock"></i>
+              <span>{{ post.createdAt | date: 'd MMM, HH:mm' }}</span>
+            </div>
+          </div>
+        </article>
+      }
+    </div>
+  } @else if (activeTab() === 'saved') {
+    <div class="space-y-4">
+      @for (post of myBookmarks(); track post._id) {
+        <article
+          class="bg-white rounded-2xl border border-slate-200/80 p-5 sm:p-6 shadow-xs transition-shadow hover:shadow-sm"
+        >
+          <div class="flex items-center justify-between gap-3 mb-3">
+            <div class="flex items-center gap-3 min-w-0">
+              <img
+                [src]="post.user.photo"
+                [alt]="post.user.name"
+                class="w-10 h-10 rounded-full object-cover shrink-0"
+              />
+              <div class="min-w-0">
+                <h3 class="text-sm font-bold text-slate-900 leading-snug truncate">
+                  {{ post.user.name }}
+                </h3>
+                <p class="text-xs text-slate-500 leading-snug truncate">
+                  @{{ post.user.username }}
+                </p>
+              </div>
+            </div>
+            <a
+              [routerLink]="['/postdetails', post._id]"
+              class="text-xs sm:text-sm font-semibold text-blue-600 hover:underline shrink-0"
+            >
+              View details
+            </a>
+          </div>
+
+          @if (post.body) {
+            <p class="text-sm text-slate-800 leading-relaxed my-3">
+              {{ post.body }}
+            </p>
+          }
+
+          @if (post.image) {
+            <div
+              class="relative rounded-2xl overflow-hidden mb-3 border border-slate-100 bg-slate-900/5 group"
+            >
+              <img
+                [src]="post.image"
+                alt="Post attachment"
+                class="w-full max-h-[500px] object-cover rounded-2xl"
+                loading="lazy"
+              />
+            </div>
+          }
+
+          <div class="flex items-center justify-between text-xs text-slate-500 pt-2">
+            <div class="flex items-center gap-4 sm:gap-6">
+              <span
+                class="inline-flex items-center gap-1.5 cursor-pointer hover:text-slate-700 select-none"
+              >
+                <i class="fa-regular fa-thumbs-up"></i>
+                <span>{{ post.likesCount }} likes</span>
+              </span>
+              <span
+                class="inline-flex items-center gap-1.5 cursor-pointer hover:text-slate-700 select-none"
+              >
+                <i class="fa-solid fa-repeat"></i>
+                <span>{{ post.sharesCount }} shares</span>
+              </span>
+              <span
+                class="inline-flex items-center gap-1.5 cursor-pointer hover:text-slate-700 select-none"
+              >
+                <i class="fa-regular fa-comment"></i>
+                <span>{{ post.commentsCount }} comments</span>
+              </span>
+            </div>
+
+            <div class="inline-flex items-center gap-1.5 text-slate-500">
+              <i class="fa-regular fa-clock"></i>
+              <span>{{ post.createdAt | date: 'd MMM, HH:mm' }}</span>
+            </div>
+          </div>
+        </article>
+      }
+    </div>
+  }
+</div>

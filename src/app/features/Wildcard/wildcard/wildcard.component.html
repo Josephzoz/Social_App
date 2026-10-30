@@ -1,0 +1,47 @@
+<div class="min-h-screen bg-[#f8fafc] flex flex-col font-sans antialiased text-slate-800">
+  
+
+  <app-navbar></app-navbar>
+
+  <main class="flex-1 flex flex-col items-center justify-center px-4 py-8 sm:py-12">
+    <div class="w-full max-w-xl mx-auto flex flex-col items-center text-center">
+
+      
+      <h1 class="sr-only">Page not found</h1>
+      <p class="sr-only">The page you're looking for doesn't exist or may have been moved.</p>
+
+     
+      <div class="w-full max-w-md sm:max-w-lg mb-6 sm:mb-8 select-none">
+        <img
+          src="./Images/404 not found.png"
+          alt="404 - Page not found. The page you're looking for doesn't exist or may have been moved."
+          class="w-full h-auto object-contain mx-auto pointer-events-none drop-shadow-xs"
+        />
+      </div>
+
+      
+      <div class="flex flex-col items-center gap-3 w-full">
+        
+        <a
+          routerLink="/feed"
+          class="inline-flex items-center justify-center gap-2 w-full max-w-[200px] sm:max-w-[215px] px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-medium text-sm shadow-xs hover:shadow-sm transition-all duration-200 cursor-pointer select-none"
+        >
+          <i class="fa-regular fa-house text-sm"></i>
+          <span>Back to Feed</span>
+        </a>
+
+       
+        <a
+          routerLink="/Profile"
+          class="inline-flex items-center justify-center gap-2 w-full max-w-[200px] sm:max-w-[215px] px-5 py-2.5 rounded-xl bg-white hover:bg-slate-50 active:bg-slate-100 text-slate-700 hover:text-slate-900 border border-slate-200/90 hover:border-slate-300 font-medium text-sm shadow-2xs hover:shadow-xs transition-all duration-200 cursor-pointer select-none"
+        >
+          <i class="fa-regular fa-user text-sm"></i>
+          <span>Go to Profile</span>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+</div>
+

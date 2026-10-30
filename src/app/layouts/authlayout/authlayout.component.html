@@ -1,0 +1,110 @@
+<div
+  class="min-h-screen bg-[#f0f2f5] flex items-center justify-center p-4 sm:p-6 lg:p-12 font-sans antialiased"
+>
+  <div
+    class="w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center"
+  >
+    <div class="lg:col-span-7 flex flex-col justify-center">
+      <h1 class="text-4xl sm:text-5xl font-black text-[#183b7e] tracking-tight">Route Posts</h1>
+
+      <p class="text-lg sm:text-xl text-slate-700 font-normal mt-3 mb-8 leading-relaxed max-w-xl">
+        Connect with friends and the world around you on Route Posts.
+      </p>
+
+      <div
+        class="bg-white rounded-2xl p-6 sm:p-8 border border-blue-100 shadow-sm transition-shadow hover:shadow-md"
+      >
+        <h2 class="text-xs font-bold text-[#0f3d99] tracking-wider uppercase">
+          ABOUT ROUTE ACADEMY
+        </h2>
+
+        <h3 class="text-lg sm:text-xl font-bold text-slate-900 mt-2 mb-3">
+          Egypt's Leading IT Training Center Since 2012
+        </h3>
+
+        <p class="text-xs sm:text-sm text-slate-500 leading-relaxed mb-6 font-normal">
+          Route Academy is the premier IT training center in Egypt, established in 2012. We
+          specialize in delivering high-quality training courses in programming, web development,
+          and application development. We've identified the unique challenges people may face when
+          learning new technology and made efforts to provide strategies to overcome them.
+        </p>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <div class="bg-[#f8faff] border border-blue-100/80 rounded-xl p-3 sm:py-3.5 sm:px-4">
+            <div class="text-base sm:text-lg font-bold text-slate-900 leading-tight">2012</div>
+            <div
+              class="text-[10px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider mt-1"
+            >
+              FOUNDED
+            </div>
+          </div>
+
+          <div class="bg-[#f8faff] border border-blue-100/80 rounded-xl p-3 sm:py-3.5 sm:px-4">
+            <div class="text-base sm:text-lg font-bold text-slate-900 leading-tight">40K+</div>
+            <div
+              class="text-[10px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider mt-1"
+            >
+              GRADUATES
+            </div>
+          </div>
+
+          <div class="bg-[#f8faff] border border-blue-100/80 rounded-xl p-3 sm:py-3.5 sm:px-4">
+            <div class="text-base sm:text-lg font-bold text-slate-900 leading-tight">50+</div>
+            <div
+              class="text-[10px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider mt-1"
+            >
+              PARTNER COMPANIES
+            </div>
+          </div>
+
+          <div class="bg-[#f8faff] border border-blue-100/80 rounded-xl p-3 sm:py-3.5 sm:px-4">
+            <div class="text-base sm:text-lg font-bold text-slate-900 leading-tight">5</div>
+            <div
+              class="text-[10px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider mt-1"
+            >
+              BRANCHES
+            </div>
+          </div>
+
+          <div class="bg-[#f8faff] border border-blue-100/80 rounded-xl p-3 sm:py-3.5 sm:px-4">
+            <div class="text-base sm:text-lg font-bold text-slate-900 leading-tight">20</div>
+            <div
+              class="text-[10px] sm:text-xs font-semibold text-slate-500 uppercase tracking-wider mt-1"
+            >
+              DIPLOMAS AVAILABLE
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="lg:col-span-5 flex justify-center w-full">
+      <div
+        class="bg-white rounded-3xl p-6 sm:p-8 md:p-9 shadow-xl border border-slate-100/80 w-full max-w-md"
+      >
+        <div class="bg-[#f0f4f9] p-1.5 rounded-2xl flex items-center mb-7">
+          <button
+            type="button"
+            routerLink="/login"
+            routerLinkActive="text-slate-800 bg-white rounded-xl shadow-sm"
+            class="flex-1 py-2.5 text-center text-sm font-bold text-slate-500 hover:text-slate-800 transition-all cursor-pointer"
+          >
+            Login
+          </button>
+          <button
+            type="button"
+            routerLink="/register"
+            routerLinkActive="text-slate-800 bg-white rounded-xl shadow-sm"
+            class="flex-1 py-2.5 text-center text-sm font-bold text-slate-500 hover:text-slate-800 transition-all cursor-pointer"
+          >
+            Register
+          </button>
+        </div>
+
+        <div>
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
