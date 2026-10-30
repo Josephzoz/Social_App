@@ -36,7 +36,7 @@ export class RegisterComponent {
     dateOfBirth:new FormControl(null,[
       Validators.required
     ]),
-    gender:new FormControl("Select gender",[
+    gender:new FormControl("male",[
       Validators.required,
       Validators.pattern(/^(?:male|female)$/)
     ]),
