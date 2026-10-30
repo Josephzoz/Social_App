@@ -29,14 +29,14 @@ export class RegisterComponent {
       Validators.maxLength(15),
       Validators.pattern(/^[a-z0-9_]{3,15}$/)
     ]),
-    email:new FormControl('male',[
+    email:new FormControl(null,[
       Validators.required,
       Validators.email
     ]),
     dateOfBirth:new FormControl(null,[
       Validators.required
     ]),
-    gender:new FormControl(null,[
+    gender:new FormControl("Select gender",[
       Validators.required,
       Validators.pattern(/^(?:male|female)$/)
     ]),
