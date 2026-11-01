@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit, signal, Signal } from '@angular/core';
+import { Component, inject, Input, OnInit, signal } from '@angular/core';
 import { CommentsService } from '../../../../core/services/Comments/comments.service';
 import { IComments } from '../../../../core/models/icomments.interface';
 import { IUserInfo } from '../../../../core/models/iuser-info.interface';
@@ -20,11 +20,35 @@ export class PostCommentsComponent implements OnInit {
    imageFile!: File;
   imgUrl = signal<string | ArrayBuffer | null | undefined>('');
 
+
+  // edit comment
+  // updating=signal<string>('')
+  // updateCommentBody:FormControl=new FormControl();
+  
+  // end here
+
   commentBody: FormControl = new FormControl();
-  editingCommentId = signal<string | null>(null);
-  editCommentControl: FormControl = new FormControl('');
-  editImageFile?: File;
-  editImgUrl = signal<string | ArrayBuffer | null | undefined>('');
+
+   // edit comment
+  updating=signal<string>('')
+  commentId:string=''
+  updateCommentBody:FormControl=new FormControl()
+  
+  editing(comment:IComments){
+    this.updating.set(comment._id)
+    this.updateCommentBody.setValue(comment.content)
+    this.commentId=comment._id
+    
+
+  }
+
+  cancelEditing(comment:IComments){
+    this.updating.set('')
+    this.updateCommentBody.setValue(comment.content)
+    this.commentId=''
+  }
+  
+  // end here
 
   ngOnInit(): void {
     this.getPostComments()
@@ -98,55 +122,25 @@ export class PostCommentsComponent implements OnInit {
     });
   }
 
-  startEdit(comment: IComments) {
-    this.editingCommentId.set(comment._id);
-    this.editCommentControl.setValue(comment.content || '');
-    this.editImageFile = undefined;
-    this.editImgUrl.set(comment.image || null);
-  }
-
-  holdEditImage(e: Event) {
-    const file = e.target as HTMLInputElement;
-    if (file.files && file.files.length > 0) {
-      this.editImageFile = file.files[0];
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(this.editImageFile);
-      fileReader.onload = (event) => {
-        this.editImgUrl.set(event.target?.result);
-      };
-    }
-  }
-
-  removeEditImage() {
-    this.editImageFile = undefined;
-    this.editImgUrl.set(null);
-  }
-
-  cancelEdit() {
-    this.editingCommentId.set(null);
-    this.editCommentControl.reset();
-    this.editImageFile = undefined;
-    this.editImgUrl.set(null);
-  }
-
-  saveEdit(commentId: string) {
+  updateComment(e: SubmitEvent,form:HTMLFormElement){
+    e.preventDefault();
     let formData = new FormData();
-    if (this.editCommentControl.value) {
-      formData.append('content', this.editCommentControl.value);
-    }
-    if (this.editImageFile) {
-      formData.append('image', this.editImageFile);
-    }
+    if (this.updateCommentBody) formData.append('content', this.updateCommentBody.value);
+    if (this.imageFile) formData.append('image', this.imageFile);
 
-    this._CommentsService.UpdateComment(this.postId, commentId, formData).subscribe({
-      next: (res) => {
-        console.log(res);
-        this.cancelEdit();
-        this.getPostComments();
+    this._CommentsService.UpdateComment(this.postId,this.commentId,formData).subscribe({
+      next:(res)=>{
+        console.log(res)
+        form.reset()
+        this.imgUrl.set(null)
+        this.commentId=''
+        this.updating.set('')
+        this.getPostComments()
       },
-      error: (err) => {
-        console.log(err);
-      },
-    });
+      error:(err)=>{
+        console.log(err)
+      }
+    })
+
   }
 }
