@@ -11,6 +11,36 @@ import { observableToBeFn } from 'rxjs/internal/testing/TestScheduler';
 export class PostsService {
   private _HttpClient=inject(HttpClient)
 
+  feedPosts=signal<IPosts[]>([])
+  communityPosts=signal<IPosts[]>([])
+ 
+
+  allPosts(){
+    this.GetAllPosts().subscribe({
+      next:(res)=>{
+        this.communityPosts.set(res.data.posts)
+      },
+      error:(err)=>{
+        console.log(err)
+      }
+    })
+  }
+
+  allFeedPosts(){
+    this.GetHomeFeed().subscribe({
+      next:(res)=>{
+        this.feedPosts.set(res.data.posts)
+      },
+      error:(err)=>{
+        console.log(err)
+      }
+    })
+  }
+
+
+
+  
+
  
 
 
@@ -60,5 +90,7 @@ export class PostsService {
   BookmarkUnbookmarkPost(postId:string):Observable<any>{
     return this._HttpClient.put(`${environment.baseURl}/posts/${postId}/bookmark`,{})
   }
+
+  
 
 }

@@ -15,7 +15,7 @@ export class MyPostsComponent implements OnInit {
   private _AuthService = inject(AuthService);
   
 
-  posts:WritableSignal<IPosts[]>=signal<IPosts[]>([])
+  posts=this._AuthService.userPosts
   userInfo?:IUserInfo
   userId?: string;
   
@@ -28,7 +28,8 @@ export class MyPostsComponent implements OnInit {
       this.userInfo = JSON.parse(data);
       this.userId=this.userInfo?._id
       if(this.userId){
-        this.GetMyPosts(this.userId)
+        // this.GetMyPosts(this.userId)
+        this._AuthService.allUserPosts(this.userId)
       }
       
     }
@@ -40,15 +41,7 @@ export class MyPostsComponent implements OnInit {
 
 
   GetMyPosts(userId:string){
-    this._AuthService.GetUserPosts(userId).subscribe({
-      next:(res)=>{
-        console.log(res.data.posts)
-        this.posts.set(res.data.posts)
-      },
-      error:(err)=>{
-        console.log(err)
-      }
-    })
+    this._AuthService.allUserPosts(userId)
 
   }
 }

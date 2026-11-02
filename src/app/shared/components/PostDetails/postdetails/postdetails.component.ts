@@ -4,35 +4,25 @@ import { ActivatedRoute } from '@angular/router';
 import { DatePipe, Location } from '@angular/common';
 import { PostCommentsComponent } from '../../Comments/post-comments/post-comments.component';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { IPosts } from '../../../../core/models/iposts.interface';
+
 
 @Component({
   selector: 'app-postdetails',
-  imports: [PostCommentsComponent, ReactiveFormsModule, DatePipe],
+  imports: [PostCommentsComponent, DatePipe,ReactiveFormsModule], 
   templateUrl: './postdetails.component.html',
   styleUrl: './postdetails.component.css',
 })
 export class PostdetailsComponent implements OnInit {
   private _PostsService = inject(PostsService);
+ 
+
   private _ActivatedRoute = inject(ActivatedRoute);
   private _Location = inject(Location);
 
   postId: WritableSignal<string> = signal<string>('');
   postDetail: WritableSignal<any> = signal<any>(null);
   userId = signal('');
-
-  editing = signal<boolean>(false);
-  imageFile!: File;
-  imgUrl = signal<string | ArrayBuffer | null | undefined>('');
-  editBody: FormControl = new FormControl();
-  editPrivacy: FormControl = new FormControl('public');
-
-  get post(): any {
-    return this.postDetail();
-  }
-
-  set post(val: any) {
-    this.postDetail.set(val);
-  }
 
   ngOnInit(): void {
     const userInfo = localStorage.getItem('userInfo');
@@ -46,6 +36,30 @@ export class PostdetailsComponent implements OnInit {
     });
   }
 
+
+    // start edit
+  edit=signal<string>('')
+  
+  updatePostBody:FormControl=new FormControl()
+  updatePostPrivacy:FormControl=new FormControl()
+
+  editing(post:IPosts){
+    this.edit.set(post._id)
+    this.updatePostBody.setValue(post.body)
+    this.updatePostPrivacy.setValue(post.privacy)
+   
+  }
+
+  cancelEditing(post:IPosts){
+    this.edit.set('')
+    this.updatePostBody.setValue(post.body)
+    this.updatePostPrivacy.setValue(post.privacy)
+    
+
+  }
+
+  // end edit
+
   getPostDetails(): void {
     this._PostsService.GetSinglePost(this.postId()).subscribe({
       next: (res) => {
@@ -58,30 +72,13 @@ export class PostdetailsComponent implements OnInit {
     });
   }
 
-  startUpdating(post?: any): void {
-    const targetPost = post || this.postDetail();
-    if (targetPost) {
-      this.editBody.setValue(targetPost.body);
-      this.editPrivacy.setValue(targetPost.privacy);
-      this.editing.set(true);
-    }
-  }
+ 
 
-  cancelUpdating(): void {
-    this.editing.set(false);
-  }
-
-  bookmarkPost(postId?: string): void {
-    const id = postId || this.postId() || this.postDetail()?._id;
-    if (!id) return;
-    this._PostsService.BookmarkUnbookmarkPost(id).subscribe({
+  bookmarkPost(postId: string): void {
+    this._PostsService.BookmarkUnbookmarkPost(postId).subscribe({
       next: (res) => {
         console.log(res.data.bookmarked);
-        if (this.postDetail()) {
-          const current = this.postDetail();
-          current.bookmarked = !current.bookmarked;
-          this.postDetail.set({ ...current });
-        }
+        this.getPostDetails()
       },
       error: (err) => {
         console.log(err);
@@ -89,13 +86,13 @@ export class PostdetailsComponent implements OnInit {
     });
   }
 
-  deletePost(postId?: string): void {
-    const id = postId || this.postId() || this.postDetail()?._id || this.postDetail()?.id;
-    if (!id) return;
-    this._PostsService.DeletePost(id).subscribe({
+  
+
+   deletePost(postId: string): void {
+    this._PostsService.DeletePost(postId).subscribe({
       next: (res) => {
-        console.log('Post deleted:', res);
-        this.goBack();
+        console.log(res);
+        this._Location.back()
       },
       error: (err) => {
         console.log(err);
@@ -103,41 +100,25 @@ export class PostdetailsComponent implements OnInit {
     });
   }
 
-  updatePost(postId?: string): void {
-    const id = postId || this.postId() || this.postDetail()?._id;
-    if (!id) return;
+  updatePost(e:SubmitEvent,form:HTMLFormElement){
+    e.preventDefault();
+    let formData = new FormData();
+    if (this.updatePostBody) formData.append('body', this.updatePostBody.value);
+    if (this.updatePostPrivacy) formData.append('privacy', this.updatePostPrivacy.value);
 
-    const formData = new FormData();
-    if (this.editBody.value) formData.append('body', this.editBody.value);
-    if (this.editPrivacy.value) formData.append('privacy', this.editPrivacy.value);
-    if (this.imageFile) formData.append('image', this.imageFile);
-
-    this._PostsService.UpdatePost(id, formData).subscribe({
-      next: (res) => {
-        console.log('Post updated:', res);
-        this.editing.set(false);
-        this.getPostDetails();
+    this._PostsService.UpdatePost(this.postId(),formData).subscribe({
+      next:(res)=>{
+        console.log(res)
+        form.reset()
+        this.getPostDetails()
+        this.postId.set('')
+        this.edit.set('')
+        
       },
-      error: (err) => {
-        console.log(err);
-      },
-    });
-  }
-
-  holdImage(e: Event): void {
-    const file = e.target as HTMLInputElement;
-    if (file.files && file.files.length > 0) {
-      this.imageFile = file.files[0];
-      this.readFile();
-    }
-  }
-
-  readFile(): void {
-    const fileReader = new FileReader();
-    fileReader.readAsDataURL(this.imageFile);
-    fileReader.onload = (e) => {
-      this.imgUrl.set(e.target?.result);
-    };
+      error:(err)=>{
+        console.log(err)
+      }
+    })
   }
 
   goBack(): void {

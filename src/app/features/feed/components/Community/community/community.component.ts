@@ -13,22 +13,16 @@ import { PostsComponent } from '../../../../../shared/components/Posts/posts/pos
 export class CommunityComponent implements OnInit {
   private _PostsService = inject(PostsService);
 
-  posts:WritableSignal<IPosts[]>=signal<IPosts[]>([])
+  // posts:WritableSignal<IPosts[]>=signal<IPosts[]>([])
+  posts=this._PostsService.communityPosts
 
   ngOnInit(): void {
-    this.GetFeedPosts();
+    // this.GetFeedPosts();
+    this._PostsService.allPosts()
   }
 
   GetFeedPosts(){
-    this._PostsService.GetAllPosts().subscribe({
-      next:(res)=>{
-        console.log(res.data.posts)
-        this.posts.set(res.data.posts)
-      },
-      error:(err)=>{
-        console.log(err)
-      }
-    })
+    this._PostsService.allPosts()
 
   }
 }

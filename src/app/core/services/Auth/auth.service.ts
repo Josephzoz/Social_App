@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal, Signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment.development';
 import { Router } from '@angular/router';
+import { IPosts } from '../../models/iposts.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -11,11 +12,30 @@ export class AuthService {
   private _HttpClient=inject(HttpClient)
   private _Router=inject(Router)
 
-  // header:object={
-  //   headers:{
-  //     token:localStorage.getItem('token')!
-  //   }
-  // }
+  userPosts=signal<IPosts[]>([])
+  bookmarks=signal<IPosts[]>([])
+
+  allUserPosts(userId:string){
+    this.GetUserPosts(userId).subscribe({
+      next:(res)=>{
+        this.userPosts.set(res.data.posts)
+      },
+      error:(err)=>{
+        console.log(err)
+      }
+    })
+  }
+
+  allBookmarkedPosts(){
+    this.GetBookmarks().subscribe({
+      next:(res)=>{
+        this.bookmarks.set(res.data.bookmarks)
+      },
+      error:(err)=>{
+        console.log(err)
+      }
+    })
+  }
 
   SignUp(formData:object):Observable<any>{
     return this._HttpClient.post(`${environment.baseURl}/users/signup`,formData)

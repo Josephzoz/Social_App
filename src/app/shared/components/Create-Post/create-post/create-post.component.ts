@@ -4,6 +4,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { formatDate } from '@angular/common';
 import { IPosts } from '../../../../core/models/iposts.interface';
 import { IUserInfo } from '../../../../core/models/iuser-info.interface';
+import { AuthService } from '../../../../core/services/Auth/auth.service';
 
 @Component({
   selector: 'app-create-post',
@@ -13,6 +14,8 @@ import { IUserInfo } from '../../../../core/models/iuser-info.interface';
 })
 export class CreatePostComponent implements OnInit {
   private _PostsService = inject(PostsService);
+  private _AuthService = inject(AuthService);
+
   imageFile!: File;
   imgUrl = signal<string | ArrayBuffer | null | undefined>('');
 
@@ -57,6 +60,9 @@ export class CreatePostComponent implements OnInit {
     this._PostsService.CreatePost(formData).subscribe({
       next: (res) => {
         console.log(res);
+        this._PostsService.allPosts()
+        this._PostsService.allFeedPosts()
+        this._AuthService.allUserPosts(this.userInfo?._id!)
         form.reset();
         this.imgUrl.set(null);
       },

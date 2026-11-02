@@ -14,27 +14,20 @@ export class SavedComponent {
    private _AuthService = inject(AuthService);
   
 
-  posts:WritableSignal<IPosts[]>=signal<IPosts[]>([])
+  posts=this._AuthService.bookmarks
  
   
 
   ngOnInit(): void {
-    this.getMyBookmarks()
+    // this.getMyBookmarks()
+    this._AuthService.allBookmarkedPosts()
       
     }
     // this.GetMyPosts();
     
 
     getMyBookmarks(){
-    this._AuthService.GetBookmarks().subscribe({
-      next:(res)=>{
-        console.log(res.data.bookmarks)
-        this.posts.set(res.data.bookmarks)
-      },
-      error:(err)=>{
-        console.log(err)
-      }
-    })
+    this._AuthService.allBookmarkedPosts()
 
   }
   }

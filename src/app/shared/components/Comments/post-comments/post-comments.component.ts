@@ -132,10 +132,10 @@ export class PostCommentsComponent implements OnInit {
       next:(res)=>{
         console.log(res)
         form.reset()
+        this.getPostComments()
         this.imgUrl.set(null)
         this.commentId=''
         this.updating.set('')
-        this.getPostComments()
       },
       error:(err)=>{
         console.log(err)
